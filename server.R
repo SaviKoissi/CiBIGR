@@ -7,6 +7,7 @@ library(shinyjs)
 
 shinyServer(function(input, output, session) {
   
+  
   # -----------------------------
   # 0. Helpers
   # -----------------------------
@@ -151,8 +152,7 @@ shinyServer(function(input, output, session) {
   # -----------------------------
   # 5. Submission function (robust)
   # -----------------------------
-  results_file <- "/Users/koissi/Desktop/WAVE_project/CBIG/IntroR_Bioinfo/results.xlsx"
-
+  results_file <- "results.xlsx"
   
   submit_quiz <- function(auto = FALSE) {
     # Prevent double-submit in this R session
@@ -276,26 +276,39 @@ shinyServer(function(input, output, session) {
     stopApp()
   }, ignoreInit = TRUE)
   
+  # get_time_elapsed <- reactive({
+  #   invalidateLater(1000*10, session)
+  #   # if(getTimer(timer)$timeElapsed >= 10) {
+  #   # timer$stop("quizz")
+  #   paste("TIME OVER", getTimer(timer)$timeElapsed)
+  #   # }
+  #   })
+  
   # -----------------------------
   # 7. Timer loop (1s)
   # -----------------------------
-  # observe({
-  #   req(mcq_df)
-  #   timer()
-  #   message("Timer tick: time_left = ", rv$time_left)
-  #   
-  #   if (isTRUE(rv$submitted)) {
-  #     message("Timer stopped: already submitted")
-  #     return()
-  #   }
-  #   
-  #   rv$time_left <- max(0, rv$time_left - 1)
-  #   
-  #   if (rv$time_left == 0 && !isTRUE(rv$submitted)) {
-  #     message("Time expired - auto submitting quiz")
-  #     isolate(submit_quiz(auto = TRUE))
-  #   }
-  # })
+  
+  observe({
+    
+    invalidateLater(1000, session)
+    req(mcq_df)
+    timer$stop("quizz")
+    output$timer <- renderText({
+      time_left <- round((total_time - getTimer(timer)$timeElapsed)/60, 0)
+      paste(time_left, "minutes remaining...")
+    })
+    
+    if (getTimer(timer)$timeElapsed >= total_time) {
+      showModal(modalDialog(
+        title = "Time Over!",
+        "Time expired - auto submitting quiz...",
+        footer = NULL
+      ))
+      Sys.sleep(5)
+      isolate(submit_quiz(auto = TRUE))
+      stopApp()
+    }
+  })
   # 
   
   # -----------------------------
