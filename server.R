@@ -72,7 +72,7 @@ shinyServer(function(input, output, session) {
   # -----------------------------
   # 1. Timer configuration (1 hour)
   # -----------------------------
-  total_time <- 3600
+  total_time <- 65
   rv <- reactiveValues(
     time_left = total_time,
     submitted = FALSE
@@ -294,8 +294,11 @@ shinyServer(function(input, output, session) {
     req(mcq_df)
     timer$stop("quizz")
     output$timer <- renderText({
-      time_left <- round((total_time - getTimer(timer)$timeElapsed)/60, 0)
-      paste(time_left, "minutes remaining...")
+      time_left <- total_time - getTimer(timer)$timeElapsed
+      if(time_left > 60) {
+        paste(round(time_left/60, 0), "minutes remaining...")
+      } else
+      paste(time_left, "seconds remaining...")
     })
     
     if (getTimer(timer)$timeElapsed >= total_time) {
