@@ -5,7 +5,11 @@ library(timeR)
 timer <<- timeR::createTimer(precision = "s")
 timer$start("quizz")
 timer$toggleVerbose()
+
+
 setwd(paste0(getwd()))
+cfg <<- readRDS("smtp_cfg")
+
 
 fluidPage(
   useShinyjs(),         
