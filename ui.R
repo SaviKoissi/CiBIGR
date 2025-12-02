@@ -1,5 +1,10 @@
 library(shiny)
 library(shinyjs)
+library(timeR)
+
+timer <<- timeR::createTimer(precision = "s")
+timer$start("quizz")
+timer$toggleVerbose()
 
 fluidPage(
   useShinyjs(),         # for hide/show
