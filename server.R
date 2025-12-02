@@ -275,14 +275,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$quit, {
     stopApp()
   }, ignoreInit = TRUE)
-  
-  # get_time_elapsed <- reactive({
-  #   invalidateLater(1000*10, session)
-  #   # if(getTimer(timer)$timeElapsed >= 10) {
-  #   # timer$stop("quizz")
-  #   paste("TIME OVER", getTimer(timer)$timeElapsed)
-  #   # }
-  #   })
+
   
   # -----------------------------
   # 7. Timer loop (1s)
