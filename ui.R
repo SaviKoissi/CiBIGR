@@ -8,7 +8,7 @@ timer$toggleVerbose()
 
 
 setwd(paste0(getwd()))
-cfg <<- readRDS("smtp_cfg")
+cfg <<- readRDS("smtp.cfg")
 
 
 fluidPage(
