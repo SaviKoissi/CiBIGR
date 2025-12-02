@@ -152,7 +152,7 @@ shinyServer(function(input, output, session) {
   # -----------------------------
   # 5. Submission function (robust)
   # -----------------------------
-  results_file <- "results.xlsx"
+  results_file <- file.path(dirname(rstudioapi::getActiveDocumentContext()$path), "results.xlsx")
   
   submit_quiz <- function(auto = FALSE) {
     # Prevent double-submit in this R session
