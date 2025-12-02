@@ -72,7 +72,7 @@ shinyServer(function(input, output, session) {
   # -----------------------------
   # 1. Timer configuration (1 hour)
   # -----------------------------
-  total_time <- 65
+  total_time <- 3600
   rv <- reactiveValues(
     time_left = total_time,
     submitted = FALSE
